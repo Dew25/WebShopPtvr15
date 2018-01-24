@@ -5,7 +5,9 @@
  */
 package entity;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -33,7 +36,9 @@ public class Maps {
     private Date date;
     @Temporal(TemporalType.TIMESTAMP)
     private Date backTime;
-
+    @Transient
+    private  int backFlag; 
+    
     public Maps() {
     }
 
@@ -42,6 +47,21 @@ public class Maps {
         this.reader = reader;
         this.date = date;
         this.backTime=backTime;
+    }
+
+    public int getBackFlag() {
+        Date today = new Date();
+        if(this.backTime.getTime() < today.getTime()){
+            return -1;
+        }else if(this.backTime.getTime() == today.getTime()){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
+
+    public void setBackFlag(int backFlag) {
+       this.backFlag = backFlag;
     }
 
     public Long getId() {

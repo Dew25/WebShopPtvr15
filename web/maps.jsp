@@ -4,9 +4,10 @@
     Author     : Melnikov
 --%>
 
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="mdf" uri="/WEB-INF/tlds/myDateFunctions" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,7 @@
     </head>
     <body>
         <h1>Карточки пользователей</h1>
+        Сегодня: <fmt:formatDate value="${today}" pattern="dd.MM.yyyy"/><br>
         Пользователи, которые взяли книги:
         <ul>
             <c:forEach var="entry" items="${mapReaderWithBooks}">
@@ -24,9 +26,12 @@
                     <c:forEach var="maps" items="${entry.value}">
                         ${maps.book.name}. Срок возврата книги: 
                         <fmt:formatDate value="${maps.backTime}" pattern="dd.MM.yyyy"/>
-                        <c:if test="${mdf:compareDate(maps.date,maps.backTime) lt 0}">
-                            (долг)
+                        <c:if test="${maps.backFlag == 0}">
+                            (возврат книги сегодня)<br>
                         </c:if>
+                        <c:if test="${maps.backFlag < 0}">
+                            (долг!)<br>
+                        </c:if>   
                     </c:forEach>
                 </li>
             </c:forEach>

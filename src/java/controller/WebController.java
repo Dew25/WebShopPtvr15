@@ -68,8 +68,6 @@ public class WebController extends HttpServlet {
         }else if("/addReader".equals(path)){
             request.getRequestDispatcher("webcontroller").forward(request, response);
         }else if("/maps".equals(path)){
-            Map<Reader,List<Maps>> mapReaderWithBooks = mapsFacade.getMapReaderWithBooks();
-            request.setAttribute("mapReaderWithBooks", mapReaderWithBooks);
             request.getRequestDispatcher("maps.jsp").forward(request, response);
         }else if("/addMap".equals(path)){
             List<Reader> readers = readerFacade.findAll();
